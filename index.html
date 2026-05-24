@@ -1088,42 +1088,47 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 11px; margin-
           <span style="font-size:15px;font-weight:700;color:var(--text)">意向把握の5ステップ（必ずこの順番で）</span>
           <span class="slide-num">15 / 26</span>
         </div>
-        <div class="steps" style="flex:1;justify-content:space-between">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-body">
-              <div class="step-title">意向把握</div>
-              <div class="step-desc">加入目的・予算・家族構成・既契約をヒアリング・記録。特定商品への誘導禁止</div>
-            </div>
+        <div style="flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch">
+          <!-- Step 1 -->
+          <div style="background:var(--surface);border-radius:10px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--brand);position:relative">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">1</div>
+            <p style="font-size:13px;font-weight:700;color:var(--brand)">意向把握</p>
+            <p style="font-size:12px;line-height:1.6;color:var(--text)">加入目的・予算・家族構成・既契約をヒアリング・記録</p>
+            <p style="font-size:11px;color:var(--danger);font-weight:600">特定商品への誘導禁止</p>
           </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-body">
-              <div class="step-title">商品選定（比較推奨販売）</div>
-              <div class="step-desc">複数商品を比較・検討。乗合代理店は<strong>推奨理由を明確に記録する義務</strong>あり</div>
-            </div>
+          <!-- Arrow -->
+          <!-- Step 2 -->
+          <div style="background:var(--surface);border-radius:10px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--brand)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">2</div>
+            <p style="font-size:13px;font-weight:700;color:var(--brand)">商品選定</p>
+            <p style="font-size:12px;line-height:1.6;color:var(--text)">意向に基づき複数商品を比較・検討</p>
+            <p style="font-size:11px;color:var(--danger);font-weight:600">推奨理由を明確に記録する義務あり</p>
           </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-body">
-              <div class="step-title">商品説明</div>
-              <div class="step-desc">保障内容・免責・解約控除・リスクを正確に説明。<strong>書面/電子交付を確実に実施</strong>（交付漏れは重大違反）</div>
-            </div>
+          <!-- Step 3 -->
+          <div style="background:var(--surface);border-radius:10px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--brand)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">3</div>
+            <p style="font-size:13px;font-weight:700;color:var(--brand)">商品説明</p>
+            <p style="font-size:12px;line-height:1.6;color:var(--text)">保障内容・免責・解約控除・リスクを正確に説明</p>
+            <p style="font-size:11px;color:var(--danger);font-weight:600">書面/電子交付を確実に実施（漏れは重大違反）</p>
           </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-body">
-              <div class="step-title">意向確認</div>
-              <div class="step-desc">意向と契約内容の整合性を最終確認。<strong>意向確認書に署名・その場で保管</strong></div>
-            </div>
+          <!-- Step 4 -->
+          <div style="background:var(--surface);border-radius:10px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--brand)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">4</div>
+            <p style="font-size:13px;font-weight:700;color:var(--brand)">意向確認</p>
+            <p style="font-size:12px;line-height:1.6;color:var(--text)">意向と契約内容の整合性を最終確認</p>
+            <p style="font-size:11px;color:var(--danger);font-weight:600">意向確認書に署名・その場で保管</p>
           </div>
-          <div class="step">
-            <div class="step-num">5</div>
-            <div class="step-body">
-              <div class="step-title">契約締結</div>
-              <div class="step-desc">申込書記入・告知適正取得・クーリングオフ案内</div>
-            </div>
+          <!-- Step 5 -->
+          <div style="background:var(--brand);border-radius:10px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--brand-dark)">
+            <div style="width:28px;height:28px;border-radius:50%;background:#fff;color:var(--brand);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">5</div>
+            <p style="font-size:13px;font-weight:700;color:#fff">契約締結</p>
+            <p style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.85)">申込書記入・告知適正取得</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.7);font-weight:600">クーリングオフ・約款交付案内</p>
           </div>
+        </div>
+        <div class="banner info" style="flex-shrink:0">
+          <span class="banner-icon">💡</span>
+          <span>先に商品を決めてから意向を合わせることは「意向把握義務」を満たしません。<strong>必ずSTEP 1から順番通りに</strong>進めてください。</span>
         </div>
       </div>
     </div>
