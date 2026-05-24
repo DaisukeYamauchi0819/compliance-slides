@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新入社員コンプライアンス研修 — Unicara</title>
+<style>
+#pw-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0d3840;
+  display: flex; align-items: center; justify-content: center;
+}
+#pw-box {
+  background: #fff; border-radius: 14px;
+  padding: 40px 48px; text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  min-width: 320px;
+}
+#pw-box h2 { font-size: 18px; color: #134f5c; margin-bottom: 6px; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+#pw-box p { font-size: 12px; color: #888; margin-bottom: 24px; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+#pw-input {
+  width: 100%; padding: 12px 16px; border: 1.5px solid #d8e2e5;
+  border-radius: 8px; font-size: 15px; outline: none;
+  text-align: center; letter-spacing: .1em;
+  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  transition: border-color .2s;
+}
+#pw-input:focus { border-color: #134f5c; }
+#pw-btn {
+  margin-top: 14px; width: 100%; padding: 12px;
+  background: #134f5c; color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 700;
+  cursor: pointer; font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  transition: opacity .15s;
+}
+#pw-btn:hover { opacity: .85; }
+#pw-err { color: #c0392b; font-size: 12px; margin-top: 10px; min-height: 16px; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+</style>
+<script>
+(function(){
+  const HASH = "d1ef448f2567db22e116d503bed442f41efd133648eea9fe29060b22074d1221";
+  async function sha256(msg){
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+  window.checkPw = async function(){
+    const val = document.getElementById("pw-input").value;
+    const h = await sha256(val);
+    if(h === HASH){
+      document.getElementById("pw-overlay").style.display = "none";
+      sessionStorage.setItem("auth","1");
+    } else {
+      document.getElementById("pw-err").textContent = "パスワードが違います";
+      document.getElementById("pw-input").value = "";
+      document.getElementById("pw-input").focus();
+    }
+  };
+  window.addEventListener("DOMContentLoaded", function(){
+    if(sessionStorage.getItem("auth") === "1"){
+      document.getElementById("pw-overlay").style.display = "none";
+      return;
+    }
+    document.getElementById("pw-input").addEventListener("keydown", function(e){
+      if(e.key === "Enter") window.checkPw();
+    });
+  });
+})();
+</script>
+<style>
+:root {
+  --brand: #134f5c;
+  --brand-dark: #0d3840;
+  --brand-light: #1a6b7c;
+  --accent: #e8a020;
+  --accent-light: #fef3dc;
+  --danger: #c0392b;
+  --danger-light: #fdf0ef;
+  --ok: #1a7a4a;
+  --ok-light: #edf7f1;
+  --surface: #f7f9fa;
+  --white: #ffffff;
+  --text: #1a2226;
+  --text-muted: #5a6a70;
+  --border: #d8e2e5;
+  --slide-w: 1000px;
+  --slide-h: 620px;
+  --dur: 250ms;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  background: #1a2226;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+  padding: 20px;
+}
+
+/* ── Shell ── */
+.shell {
+  width: var(--slide-w);
+  max-width: 100%;
+  position: relative;
+}
+
+.slide-wrap {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(40px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  overflow: hidden;
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+.slide.prev-exit {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* ── Layout helpers ── */
+.slide-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 40px 48px 32px;
+  gap: 20px;
+}
+
+.slide-inner.no-pad { padding: 0; }
+
+/* ── Common header ── */
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.module-chip {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand);
+  padding: 3px 10px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.slide-num {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ── Typography ── */
+h1 { font-size: 32px; line-height: 1.25; color: var(--text); font-weight: 800; }
+h2 { font-size: 22px; line-height: 1.3; color: var(--text); font-weight: 700; }
+h3 { font-size: 16px; line-height: 1.4; color: var(--text); font-weight: 700; }
+p, li { font-size: 14px; line-height: 1.7; color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-sm { font-size: 12px; }
+.text-xs { font-size: 11px; }
+strong { font-weight: 700; }
+
+/* ── Cover slide ── */
+.cover-slide {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 72px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-slide::before {
+  content: '';
+  position: absolute;
+  right: -80px; top: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.05);
+}
+.cover-slide::after {
+  content: '';
+  position: absolute;
+  right: 60px; bottom: -60px;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.04);
+}
+.cover-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 16px;
+}
+.cover-title {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+.cover-meta {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.cover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cover-meta-label { font-size: 10px; color: rgba(255,255,255,.5); letter-spacing: .08em; }
+.cover-meta-value { font-size: 13px; color: rgba(255,255,255,.85); font-weight: 600; }
+
+/* ── Content cards ── */
+.card {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 16px 20px;
+  border-left: 4px solid var(--brand);
+}
+.card.danger { border-left-color: var(--danger); background: var(--danger-light); }
+.card.ok { border-left-color: var(--ok); background: var(--ok-light); }
+.card.warn { border-left-color: var(--accent); background: var(--accent-light); }
+.card.neutral { border-left-color: var(--border); }
+
+/* ── Lists ── */
+ul.clean { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+ul.clean li { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.5; }
+ul.clean li::before { content: '・'; color: var(--brand); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+ul.ng { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+ul.ng li { display: flex; gap: 8px; font-size: 13px; line-height: 1.5; }
+ul.ng li::before { content: '❌'; flex-shrink: 0; }
+
+ul.ok-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+ul.ok-list li { display: flex; gap: 8px; font-size: 13px; line-height: 1.5; }
+ul.ok-list li::before { content: '✅'; flex-shrink: 0; }
+
+/* ── Two-column grid ── */
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+/* ── Divider slide ── */
+.divider-slide {
+  background: var(--brand);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 72px;
+  position: relative;
+  overflow: hidden;
+}
+.divider-slide::before {
+  content: '';
+  position: absolute;
+  left: -60px; bottom: -60px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+}
+.div-num {
+  font-size: 80px;
+  font-weight: 800;
+  color: rgba(255,255,255,.12);
+  line-height: 1;
+  position: absolute;
+  right: 48px; top: 40px;
+  font-feature-settings: 'tnum';
+}
+.div-label {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 12px;
+}
+.div-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.div-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,.7);
+  max-width: 480px;
+  line-height: 1.6;
+}
+.div-time {
+  margin-top: 24px;
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .05em;
+}
+
+/* ── Step flow ── */
+.steps { display: flex; flex-direction: column; gap: 8px; }
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-body { flex: 1; padding-top: 4px; }
+.step-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.step-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* ── Quiz ── */
+.quiz-q {
+  background: var(--brand);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.quiz-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.quiz-q-label { font-size: 12px; font-weight: 700; color: var(--brand); flex-shrink: 0; width: 28px; }
+.quiz-text { font-size: 13px; line-height: 1.55; }
+.quiz-ans {
+  margin-top: 2px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 700;
+}
+.ans-ng { background: var(--danger); color: var(--white); }
+.ans-ok { background: var(--ok); color: var(--white); }
+
+/* ── Summary grid ── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.summary-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px 14px;
+  border-top: 3px solid var(--brand);
+}
+.summary-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--brand);
+  margin-bottom: 4px;
+}
+.summary-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.summary-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  background: var(--brand);
+  color: var(--white);
+  padding: 8px 14px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+}
+.data-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: var(--surface); }
+
+/* ── Info banner ── */
+.banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.banner.warn { background: var(--accent-light); border-left: 3px solid var(--accent); }
+.banner.danger { background: var(--danger-light); border-left: 3px solid var(--danger); }
+.banner.info { background: #e8f4fb; border-left: 3px solid #2980b9; }
+.banner-icon { flex-shrink: 0; font-size: 14px; }
+
+/* ── End slide ── */
+.end-slide {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.end-slide::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.03);
+}
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: var(--slide-w);
+  max-width: 100%;
+}
+.btn {
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .15s;
+  font-family: inherit;
+}
+.btn:disabled { opacity: .3; cursor: not-allowed; }
+.btn-primary { background: var(--brand); color: var(--white); }
+.btn-ghost { background: rgba(255,255,255,.1); color: var(--white); }
+.btn:not(:disabled):hover { opacity: .85; }
+
+.progress-wrap { flex: 1; }
+.progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,.15);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--brand-light);
+  border-radius: 100px;
+  transition: width var(--dur) var(--ease);
+}
+.progress-label {
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* ── Keyboard hint ── */
+.hint { font-size: 11px; color: rgba(255,255,255,.3); text-align: center; }
+</style>
+</head>
+<body>
+
+<div id="pw-overlay">
+  <div id="pw-box">
+    <h2>Unicara 研修資料</h2>
+    <p>パスワードを入力してください</p>
+    <input id="pw-input" type="password" placeholder="password" autocomplete="off">
+    <button id="pw-btn" onclick="checkPw()">入室する</button>
+    <div id="pw-err"></div>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="slide-wrap" id="deck">
+
+    <!-- S01: Cover -->
+    <div class="slide active" id="s01">
+      <div class="cover-slide" style="height:100%">
+        <div class="cover-eyebrow">Unicara — 新入社員研修</div>
+        <div class="cover-title">コンプライアンス研修</div>
+        <div class="cover-sub">保険代理店で働くために<br>知っておくべきこと</div>
+      </div>
+    </div>
+
+    <!-- S02: 研修の目的 -->
+    <div class="slide" id="s-purpose">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Opening</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">この研修の目的</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px">
+          <div style="background:var(--brand);border-radius:12px;padding:24px 32px;text-align:center">
+            <p style="font-size:20px;font-weight:800;line-height:1.5;color:#ffffff">「知らなかった」で顧客・会社・自分を<br>傷つけないために</p>
+          </div>
+          <div class="cols-3" style="gap:14px">
+            <div class="card" style="text-align:center;padding:20px 16px">
+              <p style="font-size:28px;margin-bottom:8px">🛡️</p>
+              <p style="font-size:13px;font-weight:700;color:var(--brand);margin-bottom:6px">顧客を守る</p>
+              <p style="font-size:12px;color:var(--text-muted);line-height:1.6">顧客が正しく判断できる環境をつくることが募集人の義務</p>
+            </div>
+            <div class="card" style="text-align:center;padding:20px 16px">
+              <p style="font-size:28px;margin-bottom:8px">🏢</p>
+              <p style="font-size:13px;font-weight:700;color:var(--brand);margin-bottom:6px">会社を守る</p>
+              <p style="font-size:12px;color:var(--text-muted);line-height:1.6">一人の違反が代理店全体の処分・廃業につながりうる</p>
+            </div>
+            <div class="card" style="text-align:center;padding:20px 16px">
+              <p style="font-size:28px;margin-bottom:8px">👤</p>
+              <p style="font-size:13px;font-weight:700;color:var(--brand);margin-bottom:6px">自分を守る</p>
+              <p style="font-size:12px;color:var(--text-muted);line-height:1.6">刑事罰・登録取消しは個人のキャリアを終わらせることもある</p>
+            </div>
+          </div>
+          <div class="banner info">
+            <span class="banner-icon">📋</span>
+            <div style="font-size:13px;line-height:1.7">
+              本日の研修では <strong>4つのテーマ</strong>（募集人・非募集人の区別 / 禁止行為9つ / 意向把握 / 個人情報保護）を学びます。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S03: コンプラ違反で何が起きるか -->
+    <div class="slide" id="s02">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Opening</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">コンプラ違反で何が起きるか</span>
+          <span class="slide-num">02 / 26</span>
+        </div>
+        <div class="card danger">
+          <h3 style="margin-bottom:10px;color:var(--danger)">実際に起きていること</h3>
+          <p style="font-size:13px;line-height:1.7">金融庁・各都道府県は毎年、保険代理店への<strong>行政処分</strong>を実施しています。</p>
+        </div>
+        <div class="cols-2" style="flex:1;gap:16px">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;letter-spacing:.05em">主な処分内容</p>
+            <ul class="ng">
+              <li>業務停止命令（数日〜数ヶ月）</li>
+              <li>登録取消し（＝廃業）</li>
+              <li>代理店を経由した募集人の登録抹消</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px;letter-spacing:.05em">違反原因ランキング</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:20px;font-weight:800;color:var(--danger);width:28px">1</span>
+                <span style="font-size:13px">禁止行為（虚偽説明・不利益不告知）</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:20px;font-weight:800;color:var(--accent);width:28px">2</span>
+                <span style="font-size:13px">意向把握の未実施</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:20px;font-weight:800;color:var(--brand);width:28px">3</span>
+                <span style="font-size:13px;font-weight:700">無登録者による保険募集</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="banner warn">
+          <span class="banner-icon">⚠️</span>
+          <span>3位の無登録募集は、皆さんが<strong>依頼する側</strong>になるリスクがあります。登録前のスタッフに何かを頼むことも違反になります。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 1 Divider -->
+    <div class="slide" id="s-m1">
+      <div class="divider-slide" style="height:100%">
+        <div class="div-num">01</div>
+        <div class="div-label">Module 1 · 5〜18分</div>
+        <div class="div-title">募集人・非募集人で<br>できることの違い</div>
+        <div class="div-sub">無登録者に何をさせてはいけないか。<br>管理する立場として理解する。</div>
+        <div class="div-time">📋 根拠法：保険業法第276条</div>
+      </div>
+    </div>
+
+    <!-- S03: 皆さんは「募集人」です -->
+    <div class="slide" id="s03">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 1</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">まず確認 — 皆さんは「募集人」です</span>
+          <span class="slide-num">03 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1">
+          <div class="card ok">
+            <h3 style="color:var(--ok);margin-bottom:10px">✅ 保険募集人（登録済み）</h3>
+            <ul class="clean">
+              <li>一般課程試験に合格し、保険会社に登録が完了した人</li>
+              <li>保険の勧誘・説明・申込受付ができる</li>
+            </ul>
+          </div>
+          <div class="card danger">
+            <h3 style="color:var(--danger);margin-bottom:10px">❌ 非募集人（未登録）</h3>
+            <ul class="clean">
+              <li>まだ試験を受けていない、または登録手続き中の人</li>
+              <li>保険募集に関わる行為は<strong>一切禁止</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card" style="background:#e8f4fb;border-left-color:#2980b9">
+          <p style="font-size:14px"><strong>✅ 皆さんは入社と同時に募集人登録が完了しています。</strong><br>
+          <span style="font-size:13px;color:var(--text-muted)">ただし「無登録者が何をしてはいけないか」を理解することは、<br>管理する立場として必須の知識です。</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S04: FPエイドにさせてはいけないこと -->
+    <div class="slide" id="s04">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 1</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">FPエイドにさせてはいけないこと（保険業法第276条）</span>
+          <span class="slide-num">04 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <table class="data-table">
+            <thead>
+              <tr><th>禁止行為</th><th>具体例</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>移管・乗換えを勧誘させる</td><td>「うちの代理店に移管した方がいいですよ」</td></tr>
+              <tr><td>具体的な保険商品を説明させる</td><td>商品名を出して説明・特定商品のみ案内</td></tr>
+              <tr><td>設計書を送付させる</td><td>「送るだけ」でも募集行為とみなされる</td></tr>
+              <tr><td>申込書・告知書の記入を案内させる</td><td>「ここに○○と書いてください」</td></tr>
+              <tr><td>保険料を受け取らせる</td><td>初回保険料を顧客から受け取らせる</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="banner danger">
+          <span class="banner-icon">⚠️</span>
+          <div>
+            <strong>違反した場合：</strong>代理店に業務停止・登録取消しのリスク。
+            FPエイド本人にも刑事罰（1年以下の懲役 or 100万円以下の罰金）。
+            <strong>依頼した募集人も処分対象</strong>になりうる。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S05: FPエイドでもできること -->
+    <div class="slide" id="s05">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 1</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">FPエイドでもできること</span>
+          <span class="slide-num">05 / 26</span>
+        </div>
+        <table class="data-table" style="flex:1">
+          <thead>
+            <tr><th>OK な行為</th><th>具体例</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>一般的な金融教育</td><td>保険の仕組みの一般論・ライフプランの話</td></tr>
+            <tr><td>面談日程の調整・取次ぎ</td><td>募集人へのアポイント設定・紹介</td></tr>
+            <tr><td>保全手続きの一般案内</td><td>「住所変更は保険会社へご連絡を」程度</td></tr>
+            <tr><td>資料の物理的な受け渡し</td><td>説明せずにパンフレットを渡すだけ</td></tr>
+            <tr><td>事務・書類整理</td><td>契約後の書類ファイリング・データ入力</td></tr>
+          </tbody>
+        </table>
+        <div class="card">
+          <p style="font-size:14px;font-weight:700;color:var(--brand)">
+            NG：「説明する・勧める・特定商品に誘導する」<br>
+            OK：「つなぐ・整理する・一般論を伝える」
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S06: ○×クイズ -->
+    <div class="slide" id="s06">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 1</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">○×クイズ — FPエイドへの依頼、これはOK？NG？</span>
+          <span class="slide-num">06 / 26</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted)">FPエイドに頼んだ場合を考えてください</p>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <div class="quiz-item">
+            <span class="quiz-q-label">Q1</span>
+            <div class="quiz-text">顧客に「生命保険に興味はありますか？」と聞いてきてもらった
+              <span class="quiz-ans ans-ng">NG</span>
+            </div>
+          </div>
+          <div class="quiz-item">
+            <span class="quiz-q-label">Q2</span>
+            <div class="quiz-text">「詳しくは担当者からご説明します」とアポを取ってきてもらった
+              <span class="quiz-ans ans-ok">OK</span>
+            </div>
+          </div>
+          <div class="quiz-item">
+            <span class="quiz-q-label">Q3</span>
+            <div class="quiz-text">自分が作成した設計書を顧客にメールで送ってもらった
+              <span class="quiz-ans ans-ng">NG</span>
+              <span style="font-size:11px;color:var(--text-muted);margin-left:4px">送付だけでも募集行為</span>
+            </div>
+          </div>
+          <div class="quiz-item">
+            <span class="quiz-q-label">Q4</span>
+            <div class="quiz-text">「終身保険の仕組みは？」に一般的な説明をしてもらった
+              <span class="quiz-ans ans-ok">OK</span>
+            </div>
+          </div>
+          <div class="quiz-item">
+            <span class="quiz-q-label">Q5</span>
+            <div class="quiz-text">申込書の記入の仕方を案内してもらった
+              <span class="quiz-ans ans-ng">NG</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S07: 募集人登録の仕組み -->
+    <div class="slide" id="s07">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 1</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">募集人登録の仕組みと更新管理</span>
+          <span class="slide-num">07 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px;letter-spacing:.05em">皆さんが経験した登録フロー</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                  <div class="step-title">一般課程試験（生命保険）を受験・合格</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                  <div class="step-title">取扱保険会社に登録申請</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                  <div class="step-title">登録完了の通知 → 入社・活動開始 ✅</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px;letter-spacing:.05em">重要ルール</p>
+            <ul class="clean">
+              <li>登録は<strong>取扱保険会社ごと</strong>に必要（A社登録のみでB社商品は募集できない）</li>
+              <li>資格の有効期限・更新を<strong>自分で管理</strong>する</li>
+              <li>取扱商品が増えるたびに<strong>追加登録</strong>が必要</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner info">
+          <span class="banner-icon">💡</span>
+          <span>将来スタッフが入ってきたときは「<strong>登録完了通知が届くまで募集はNG</strong>」と指導する</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 2 Divider -->
+    <div class="slide" id="s-m2">
+      <div class="divider-slide" style="height:100%">
+        <div class="div-num">02</div>
+        <div class="div-label">Module 2 · 18〜34分</div>
+        <div class="div-title">禁止行為 9つ</div>
+        <div class="div-sub">募集人が絶対にやってはいけない行為。<br>「知らなかった」は通用しない。</div>
+        <div class="div-time">📋 根拠法：保険業法第300条</div>
+      </div>
+    </div>
+
+    <!-- S08: 禁止行為とは -->
+    <div class="slide" id="s08">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為とは（保険業法第300条）</span>
+          <span class="slide-num">08 / 26</span>
+        </div>
+        <div class="card danger" style="flex:0">
+          <h3 style="color:var(--danger);margin-bottom:8px">募集人が絶対にやってはいけない行為</h3>
+          <p style="font-size:13px">保険業法第300条に定められた、最も重要なルールです。</p>
+        </div>
+        <div class="cols-3" style="flex:1">
+          <div class="card">
+            <p style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px">行政処分</p>
+            <p style="font-size:13px">業務停止・登録取消し</p>
+          </div>
+          <div class="card">
+            <p style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px">民事</p>
+            <p style="font-size:13px">顧客との損害賠償トラブル</p>
+          </div>
+          <div class="card danger">
+            <p style="font-size:11px;font-weight:700;color:var(--danger);margin-bottom:4px">刑事罰</p>
+            <p style="font-size:13px">最大<strong>1年の懲役</strong></p>
+          </div>
+        </div>
+        <div style="background:var(--brand);color:var(--white);border-radius:10px;padding:20px 24px;text-align:center">
+          <p style="font-size:18px;font-weight:800;letter-spacing:.02em">「知らなかった」は通用しない</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S09: 禁止行為① -->
+    <div class="slide" id="s09">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為① 虚偽説明・断定的判断の提供</span>
+          <span class="slide-num">09 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1;gap:14px">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:8px">NG例：事実と異なる説明</p>
+            <ul class="ng">
+              <li>「この保険は元本保証です」（変額保険なのに）</li>
+              <li>「保険料は変わりません」（更新型なのに）</li>
+              <li>「解約返戻金が払込保険料を下回ることはない」</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:8px">NG例：断定的判断の提供</p>
+            <ul class="ng">
+              <li>「銀行より絶対に有利です。絶対に損しません」</li>
+              <li>「将来必ず保険金が受け取れます」</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card ok">
+          <p style="font-size:14px;font-weight:700;color:var(--ok)">ポイント</p>
+          <ul class="clean" style="margin-top:6px">
+            <li>不確実なことは「可能性があります」と表現する</li>
+            <li>わからなければ「確認します」と答える</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- S10: 禁止行為② -->
+    <div class="slide" id="s10">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為② 不利益事実の不告知・重要事項の不説明</span>
+          <span class="slide-num">10 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1;gap:14px">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:8px">NG例：不利益の隠蔽</p>
+            <ul class="ng">
+              <li>解約返戻金が下がることを言わずに乗換えを勧める</li>
+              <li>更新時に保険料が上がることを説明しない</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:8px">NG例：重要事項の不説明</p>
+            <ul class="ng">
+              <li>免責期間があるのに「いつでも保険金が出ます」</li>
+              <li>対象外の手術があるのに「どんな手術でも支払い対象」</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card ok">
+          <p style="font-size:14px;font-weight:700;color:var(--ok)">ポイント：有利・不利の<strong>両方</strong>を、省略せず正直に伝えることが義務</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S11〜17: 禁止行為③〜⑨ （まとめてコンパクトに） -->
+    <div class="slide" id="s11">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為③〜⑤</span>
+          <span class="slide-num">11 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">③ 誤解させるおそれのある比較・説明</p>
+            <ul class="ng">
+              <li>「業界No.1の実績」（何がNo.1か不明確）</li>
+              <li>保険料の安さだけ強調した比較資料で「うちが一番優れている」</li>
+            </ul>
+            <p style="font-size:12px;color:var(--ok);margin-top:6px">✅ 比較には客観的根拠が必要。一部条件のみ切り取った強調は禁止</p>
+          </div>
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">④ 不当乗換勧誘</p>
+            <ul class="ng">
+              <li>不利益を説明せずに「今の保険は古いので入り直しましょう」</li>
+            </ul>
+            <p style="font-size:12px;color:var(--ok);margin-top:6px">✅ 不利益を十分説明した上で顧客が納得して選択した場合はOK。面談記録に残す</p>
+          </div>
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">⑤ 告知義務違反の唆し</p>
+            <ul class="ng">
+              <li>「持病のことは書かなくていいですよ」「その病歴は省略して」</li>
+            </ul>
+            <p style="font-size:12px;color:var(--danger);margin-top:6px">→ 顧客の契約解除・保険金不払い・代理店も処分対象</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" id="s12">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為⑥〜⑨</span>
+          <span class="slide-num">12 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">⑥ 特別利益の提供（2025年改正で強化）</p>
+            <ul class="ng">
+              <li>初月保険料の立替・ギフト券の進呈・保険料の一部自腹負担</li>
+              <li>不必要に高額な飲食接待（契約獲得が目的）</li>
+            </ul>
+            <p style="font-size:12px;color:var(--ok);margin-top:4px">✅「好意」のつもりでも違反。自腹かどうかも関係なし</p>
+          </div>
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">⑦ 威迫・業務上の地位の不当利用</p>
+            <ul class="ng">
+              <li>「今日決めてもらわないと困ります」／断られても何度も連絡</li>
+              <li>「保険に加入しないなら今後の取引を考え直す」と示唆する</li>
+            </ul>
+          </div>
+          <div class="card danger">
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">⑧ 誹謗・中傷　／　⑨ 保険種類・保険会社の誤認</p>
+            <ul class="ng">
+              <li>競合会社の格付け記事を渡して劣位を強調（渡すだけでも違反）</li>
+              <li>A生命と言いながらB生命を販売する／代理店名と保険会社名を混同させる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S13: 禁止行為まとめ -->
+    <div class="slide" id="s13">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 2</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">禁止行為まとめ — 9つの整理</span>
+          <span class="slide-num">13 / 26</span>
+        </div>
+        <div class="summary-grid" style="flex:1">
+          <div class="summary-item">
+            <div class="summary-num">①</div>
+            <div class="summary-title">虚偽説明・断定的判断</div>
+            <div class="summary-desc">嘘をつかない・不確実なことを断言しない</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">②</div>
+            <div class="summary-title">重要事項の不説明</div>
+            <div class="summary-desc">不利な情報も重要事項も漏らさず伝える</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">③</div>
+            <div class="summary-title">誤解させる比較・説明</div>
+            <div class="summary-desc">根拠のない優位性の主張・誇張表現は禁止</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">④</div>
+            <div class="summary-title">不当乗換勧誘</div>
+            <div class="summary-desc">乗換えは不利益説明が先</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">⑤</div>
+            <div class="summary-title">告知義務違反唆し</div>
+            <div class="summary-desc">告知内容に口を出さない</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">⑥</div>
+            <div class="summary-title">特別利益の提供</div>
+            <div class="summary-desc">金品・サービスで釣らない（2025年改正強化）</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">⑦</div>
+            <div class="summary-title">威迫・地位の不当利用</div>
+            <div class="summary-desc">断れない状況・取引関係を使った強要は禁止</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">⑧</div>
+            <div class="summary-title">誹謗・中傷</div>
+            <div class="summary-desc">記事コピーを渡すだけでも違反になりうる</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">⑨</div>
+            <div class="summary-title">保険種類・会社誤認</div>
+            <div class="summary-desc">引受会社・商品種別を正確に伝える</div>
+          </div>
+        </div>
+        <div style="background:var(--brand);color:var(--white);border-radius:8px;padding:12px 20px;text-align:center">
+          <p style="font-size:14px;font-weight:700">共通の考え方：「顧客が正しく判断できる環境を作ること」</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 3 Divider -->
+    <div class="slide" id="s-m3">
+      <div class="divider-slide" style="height:100%">
+        <div class="div-num">03</div>
+        <div class="div-label">Module 3 · 34〜46分</div>
+        <div class="div-title">意向把握・<br>情報提供義務</div>
+        <div class="div-sub">顧客が本当に必要とするものを売るための<br>5ステップを理解する。</div>
+        <div class="div-time">📋 根拠法：保険業法第294条・第294条の2</div>
+      </div>
+    </div>
+
+    <!-- S14: 意向把握義務とは -->
+    <div class="slide" id="s14">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 3</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">意向把握義務とは（保険業法第294条の2）</span>
+          <span class="slide-num">14 / 26</span>
+        </div>
+        <div class="card" style="background:#e8f4fb;border-left-color:#2980b9;flex:0">
+          <h3 style="margin-bottom:6px">募集人には「顧客の意向を把握する義務」がある</h3>
+          <p style="font-size:13px">顧客が本当に必要としているものと異なる保険を売ることを防ぐため</p>
+        </div>
+        <div class="cols-2" style="flex:1">
+          <div class="card danger">
+            <h3 style="color:var(--danger);margin-bottom:8px">❌ 義務を果たさないと</h3>
+            <ul class="ng">
+              <li>行政処分の対象</li>
+              <li>「こんな保険を売りつけられた」という苦情の原因</li>
+            </ul>
+          </div>
+          <div class="card ok">
+            <h3 style="color:var(--ok);margin-bottom:8px">✅ 正しい順番</h3>
+            <p style="font-size:13px;color:var(--danger);font-weight:700;margin-bottom:6px">❌ 先に商品を決めてから話を合わせる → NG</p>
+            <p style="font-size:13px;color:var(--ok);font-weight:700">✅ 意向を聞いてから商品を選ぶ → OK</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S15: 意向把握5ステップ -->
+    <div class="slide" id="s15">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 3</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">意向把握の5ステップ（必ずこの順番で）</span>
+          <span class="slide-num">15 / 26</span>
+        </div>
+        <div class="steps" style="flex:1;justify-content:space-between">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">意向把握</div>
+              <div class="step-desc">加入目的・予算・家族構成・既契約をヒアリング・記録。特定商品への誘導禁止</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">商品選定（比較推奨販売）</div>
+              <div class="step-desc">複数商品を比較・検討。乗合代理店は<strong>推奨理由を明確に記録する義務</strong>あり</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">商品説明</div>
+              <div class="step-desc">保障内容・免責・解約控除・リスクを正確に説明。<strong>書面/電子交付を確実に実施</strong>（交付漏れは重大違反）</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <div class="step-title">意向確認</div>
+              <div class="step-desc">意向と契約内容の整合性を最終確認。<strong>意向確認書に署名・その場で保管</strong></div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <div class="step-title">契約締結</div>
+              <div class="step-desc">申込書記入・告知適正取得・クーリングオフ案内</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S16: 情報提供義務 & NG例 -->
+    <div class="slide" id="s16">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 3</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">情報提供義務 & よくあるNG例</span>
+          <span class="slide-num">16 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1;gap:16px">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:10px">必ず渡して説明する書類（保険業法第294条）</p>
+            <ul class="clean">
+              <li><strong>契約概要</strong>：保障内容・保険料・返戻金等</li>
+              <li><strong>注意喚起情報</strong>：告知義務・クーリングオフ・免責事項等</li>
+              <li><strong>推奨理由</strong>（複数商品取扱の場合）</li>
+            </ul>
+            <div class="banner warn" style="margin-top:12px">
+              <span class="banner-icon">⚠️</span>
+              <span>渡すだけでなく「<strong>説明した</strong>」という記録が必要。<br>書面・電子どちらでも交付漏れは重大違反</span>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:10px">よくあるNG例</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="card danger" style="padding:10px 14px">
+                <p style="font-size:12px"><strong>NG①</strong> 良いところだけ説明して申込みをもらう</p>
+                <p style="font-size:11px;color:var(--text-muted)">→ 注意喚起情報（デメリット）の説明が必要</p>
+              </div>
+              <div class="card danger" style="padding:10px 14px">
+                <p style="font-size:12px"><strong>NG②</strong> 「とりあえず申込書だけ書いてもらった」</p>
+                <p style="font-size:11px;color:var(--text-muted)">→ 意向把握が先、申込みは後</p>
+              </div>
+              <div class="card danger" style="padding:10px 14px">
+                <p style="font-size:12px"><strong>NG③</strong> 意向確認書を後日郵送した</p>
+                <p style="font-size:11px;color:var(--text-muted)">→ 説明と同時に交付・確認が原則</p>
+              </div>
+              <div class="card danger" style="padding:10px 14px">
+                <p style="font-size:12px"><strong>NG④</strong> 顧客の意向を聞かずに「これがおすすめ」</p>
+                <p style="font-size:11px;color:var(--text-muted)">→ STEP 1（意向確認）が必ず先</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 4 Divider -->
+    <div class="slide" id="s-m4">
+      <div class="divider-slide" style="height:100%">
+        <div class="div-num">04</div>
+        <div class="div-label">Module 4 · 46〜57分</div>
+        <div class="div-title">個人情報保護の<br>実務ルール</div>
+        <div class="div-sub">保険業務では要配慮個人情報を扱う。<br>通常より厳格な取り扱いが求められる。</div>
+        <div class="div-time">📋 根拠法：個人情報保護法・保険業法</div>
+      </div>
+    </div>
+
+    <!-- S17: 個人情報の特殊性 -->
+    <div class="slide" id="s17">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 4</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">保険業務で扱う個人情報の特殊性</span>
+          <span class="slide-num">17 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1;gap:16px">
+          <div class="card neutral">
+            <h3 style="margin-bottom:10px">通常の個人情報</h3>
+            <ul class="clean">
+              <li>氏名</li>
+              <li>住所</li>
+              <li>電話番号</li>
+            </ul>
+          </div>
+          <div class="card danger">
+            <h3 style="color:var(--danger);margin-bottom:10px">＋ 要配慮個人情報</h3>
+            <ul class="clean">
+              <li>病歴・健康状態</li>
+              <li>身体的特徴</li>
+            </ul>
+            <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+              <p style="font-size:12px;font-weight:700;color:var(--danger)">要配慮個人情報は：</p>
+              <ul class="ng">
+                <li>取得に本人の<strong>明示的な同意</strong>が必要</li>
+                <li>漏洩した場合のリスクが特に高い</li>
+                <li>第三者提供は<strong>原則禁止</strong>（同意なし不可）</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--brand);color:var(--white);border-radius:8px;padding:14px 20px;text-align:center">
+          <p style="font-size:15px;font-weight:700">「一般的な個人情報よりも厳格に扱う」</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S18: 日常業務 + LINE/SNS -->
+    <div class="slide" id="s18">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 4</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">日常業務での個人情報ルール</span>
+          <span class="slide-num">18 / 26</span>
+        </div>
+        <div class="cols-3" style="flex:1;gap:12px">
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px">📄 書類・資料</p>
+            <ul class="ok-list">
+              <li>顧客情報が入った書類は<strong>鍵付き保管</strong></li>
+              <li>廃棄するときは必ず<strong>シュレッダー</strong></li>
+            </ul>
+            <ul class="ng" style="margin-top:6px">
+              <li>他の顧客に見えるところに置かない</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px">💻 PC・スマートフォン</p>
+            <ul class="ok-list">
+              <li><strong>画面ロック</strong>を必ず設定する</li>
+              <li>会社支給デバイスのみ使用</li>
+            </ul>
+            <ul class="ng" style="margin-top:6px">
+              <li>個人クラウドに保存しない（Googleドライブ等）</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px">🚶 外出時</p>
+            <ul class="ok-list">
+              <li>持ち出し<strong>記録</strong>をつける</li>
+            </ul>
+            <ul class="ng" style="margin-top:6px">
+              <li>電車・カフェで顧客情報を声に出さない</li>
+              <li>資料を鞄から出したまま席を離れない</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card danger">
+          <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px">📱 LINE・SNS</p>
+          <div class="cols-2" style="gap:12px">
+            <ul class="ng">
+              <li>個人LINEで契約情報・保険料を送らない</li>
+              <li>申込書の写真をLINEで送受信しない</li>
+            </ul>
+            <ul class="ng">
+              <li>顧客名・情報をSNSに投稿しない（仮名もNG）</li>
+              <li>「今日〇〇さんの契約が取れた」もNG</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S19: 情報漏洩対応 -->
+    <div class="slide" id="s19">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">Module 4</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">情報漏洩が起きたら</span>
+          <span class="slide-num">19 / 26</span>
+        </div>
+        <div class="steps" style="flex:1;justify-content:space-between">
+          <div class="step">
+            <div class="step-num" style="background:var(--danger)">1</div>
+            <div class="step-body">
+              <div class="step-title">すぐに上長・内部管理責任者に報告</div>
+              <div class="step-desc">自分だけで判断しない。即時報告が最優先</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--danger)">2</div>
+            <div class="step-body">
+              <div class="step-title">状況を記録（いつ・何が・どのように）</div>
+              <div class="step-desc">正確に記録することで被害状況と範囲を把握する</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--danger)">3</div>
+            <div class="step-body">
+              <div class="step-title">被害を広げない行動</div>
+              <div class="step-desc">関係するデバイスを隔離する等</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--danger)">4</div>
+            <div class="step-body">
+              <div class="step-title">会社の指示に従って対応</div>
+              <div class="step-desc">落とし物センターへの連絡等は報告後に会社指示のもとで行う</div>
+            </div>
+          </div>
+        </div>
+        <div class="cols-2" style="gap:12px">
+          <div class="banner danger">
+            <span class="banner-icon">⚠️</span>
+            <span>「大丈夫だろう」と自分で判断して<strong>隠すのが最悪</strong></span>
+          </div>
+          <div class="banner danger">
+            <span class="banner-icon">⚠️</span>
+            <span>一定規模以上の漏洩は<strong>個人情報保護委員会への報告義務</strong>あり</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 5 Divider: 確認テスト -->
+    <div class="slide" id="s-test">
+      <div class="divider-slide" style="height:100%;background:linear-gradient(135deg,#1a4a1f 0%,#2e7d32 100%)">
+        <div class="div-num" style="color:rgba(255,255,255,.1)">T</div>
+        <div class="div-label">確認テスト · 57〜65分</div>
+        <div class="div-title">理解度チェック<br>10問</div>
+        <div class="div-sub">合格ライン：80点（8問以上正解）<br>○×問題7問 ＋ 選択問題3問</div>
+        <div class="div-time">不合格の場合は再研修・再テストを実施します</div>
+      </div>
+    </div>
+
+    <!-- Test Q1-4 -->
+    <div class="slide" id="t1">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#2e7d32">確認テスト</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">○×問題（各10点）— 問1〜4</span>
+          <span class="slide-num">20 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問1</p>
+            <p style="font-size:13px;margin-bottom:4px">来月入社予定のスタッフが、登録手続き中に顧客から保険の質問をされた。内容を説明してよい。</p>
+            <span class="quiz-ans ans-ng">× NG</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">登録完了の通知を受け取るまでは非募集人。手続き中でも保険の説明・勧誘は保険業法第276条違反</p>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問2</p>
+            <p style="font-size:13px;margin-bottom:4px">非募集人が「生命保険の見直しを考えている方はご連絡ください」と個人SNSに投稿することは問題ない。</p>
+            <span class="quiz-ans ans-ng">× NG</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">SNS上の投稿も「募集行為」に該当。非募集人によるインターネットを通じた勧誘は保険業法違反</p>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問3</p>
+            <p style="font-size:13px;margin-bottom:4px">不利益事項（解約返戻金の損失等）を十分に説明した上で乗換えを提案した。これは問題ない。</p>
+            <span class="quiz-ans ans-ok">○ OK</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">不利益事項を十分説明した上での乗換え提案はOK。禁止されているのは「説明せずに」勧めること</p>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問4</p>
+            <p style="font-size:13px;margin-bottom:4px">顧客が「持病のことは書かなくてもいいですよね？」と聞いてきたので、「告知は正確に記載してください」と答えた。</p>
+            <span class="quiz-ans ans-ok">○ OK（正しい対応）</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">正確な記載を促すことは正しい対応。「書かなくていい」と誘導することが禁止行為（告知義務違反の唆し）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Q5-7 -->
+    <div class="slide" id="t2">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#2e7d32">確認テスト</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">○×問題（各10点）— 問5〜7</span>
+          <span class="slide-num">21 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問5</p>
+            <p style="font-size:13px;margin-bottom:4px">顧客を喜ばせるために、契約後にカフェに招待した。食事代は自腹で払った。これは禁止行為にあたる。</p>
+            <span class="quiz-ans ans-ok">○ 禁止行為にあたる</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">契約と関連した金品・サービスの提供は「特別利益の提供」。「自腹」かどうかは関係なし</p>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問6</p>
+            <p style="font-size:13px;margin-bottom:4px">意向把握は、まず商品を提案してから「ご意向はいかがですか？」と顧客に確認すれば問題ない。</p>
+            <span class="quiz-ans ans-ng">× NG</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">順番はSTEP1（意向把握）→ STEP2（商品選定）→ STEP3（商品説明）→ STEP4（意向確認）→ STEP5（契約）</p>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問7</p>
+            <p style="font-size:13px;margin-bottom:4px">顧客の健康状態に関する情報（持病・入院歴）を、顧客本人の同意なく保険会社に提供することはできない。</p>
+            <span class="quiz-ans ans-ok">○</span>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px">病歴・健康状態は「要配慮個人情報」。第三者への提供には本人の明示的な同意が必要</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Q8-10 -->
+    <div class="slide" id="t3">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#2e7d32">確認テスト</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">選択問題（各10点）— 問8〜10</span>
+          <span class="slide-num">22 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問8　非募集人が顧客から「死亡保険ってどんな種類があるの？」と聞かれた時の最も適切な対応は？</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+              <span style="font-size:12px;color:var(--text-muted)">A. 死亡保険の種類をわかりやすく説明した</span>
+              <span style="font-size:12px;font-weight:700;color:var(--ok)">B. 「詳しくは担当者がご説明します」とアポを取った ✅</span>
+              <span style="font-size:12px;color:var(--text-muted)">C. 「わからないので」とだけ答えた</span>
+              <span style="font-size:12px;color:var(--text-muted)">D. パンフレットを見せながら「これがおすすめ」と伝えた</span>
+            </div>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問9　意向確認書はいつ取得するのが正しいですか？</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+              <span style="font-size:12px;color:var(--text-muted)">A. 顧客が申込書にサインした後</span>
+              <span style="font-size:12px;color:var(--text-muted)">B. 顧客が「入ります」と言った後</span>
+              <span style="font-size:12px;color:var(--text-muted)">C. 商品を提案する前に顧客ニーズを確認したタイミング</span>
+              <span style="font-size:12px;font-weight:700;color:var(--ok)">D. 商品を提案・説明した後、申込みの前 ✅</span>
+            </div>
+          </div>
+          <div class="card neutral">
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:4px">問10　顧客情報入りのUSBメモリを電車内で紛失した。最初にすべき行動は？</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <span style="font-size:12px;color:var(--text-muted)">A. 自分で電車会社の落とし物センターに連絡して待つ</span>
+              <span style="font-size:12px;color:var(--text-muted)">B. 「たいした情報じゃないから大丈夫」と様子を見る</span>
+              <span style="font-size:12px;font-weight:700;color:var(--ok)">C. すぐに上長・内部管理責任者に報告し指示を仰ぐ ✅</span>
+              <span style="font-size:12px;color:var(--text-muted)">D. SNSで「USBを拾った方はご連絡を」と投稿する</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- まとめ -->
+    <div class="slide" id="s-summary">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">まとめ</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">4つのモジュール — おさらい</span>
+          <span class="slide-num">24 / 26</span>
+        </div>
+        <div class="cols-2" style="flex:1;gap:12px">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:20px;font-weight:800;color:var(--brand)">01</span>
+              <h3>募集人・非募集人の違い</h3>
+            </div>
+            <ul class="clean">
+              <li>FPエイドに「説明・勧誘・送付」はさせない</li>
+              <li>「つなぐ・整理する」はOK</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:20px;font-weight:800;color:var(--brand)">02</span>
+              <h3>禁止行為 9つ</h3>
+            </div>
+            <ul class="clean">
+              <li>虚偽・不告知・誤解・不当乗換・告知唆し</li>
+              <li>特別利益・威迫・誹謗中傷・誤認</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:20px;font-weight:800;color:var(--brand)">03</span>
+              <h3>意向把握・情報提供義務</h3>
+            </div>
+            <ul class="clean">
+              <li>5ステップを必ず順番通りに</li>
+              <li>書面交付漏れは重大違反</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:20px;font-weight:800;color:var(--brand)">04</span>
+              <h3>個人情報保護</h3>
+            </div>
+            <ul class="clean">
+              <li>要配慮個人情報は特に厳格に管理</li>
+              <li>漏洩時は即時報告・隠蔽は最悪</li>
+            </ul>
+          </div>
+        </div>
+        <div style="background:var(--brand);color:var(--white);border-radius:8px;padding:14px 20px;text-align:center">
+          <p style="font-size:14px;font-weight:700">すべての根底：「顧客が正しく判断できる環境を作ること」</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="slide" id="s-note">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip">注意事項</span>
+          <span style="font-size:15px;font-weight:700;color:var(--text)">困ったときは必ず確認を</span>
+          <span class="slide-num">25 / 26</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+          <div class="banner info">
+            <span class="banner-icon">💡</span>
+            <div>
+              <strong>判断に迷ったら</strong>：一人で判断せず、必ず上長・内部管理責任者に相談する。<br>
+              「これは大丈夫だろう」という自己判断が違反の入口になる。
+            </div>
+          </div>
+          <div class="cols-3" style="flex:1;gap:12px">
+            <div class="card">
+              <p style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px">相談先</p>
+              <ul class="clean">
+                <li>上長・直属マネージャー</li>
+                <li>内部管理責任者</li>
+                <li>委託保険会社のコンプライアンス担当</li>
+              </ul>
+            </div>
+            <div class="card">
+              <p style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px">記録の重要性</p>
+              <ul class="clean">
+                <li>面談記録は必ずつける</li>
+                <li>意向確認書はその場で保管</li>
+                <li>書面交付の記録を残す</li>
+              </ul>
+            </div>
+            <div class="card">
+              <p style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px">定期的な確認</p>
+              <ul class="clean">
+                <li>資格・登録の有効期限を自分で管理</li>
+                <li>法改正情報をキャッチアップ</li>
+                <li>年1回以上の研修受講</li>
+              </ul>
+            </div>
+          </div>
+          <div class="banner warn">
+            <span class="banner-icon">⚠️</span>
+            <span>本教材は参考情報です。最終的な法的判断は顧問弁護士・委託保険会社のコンプライアンス担当部門にご確認ください。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.slide-wrap -->
+
+  <div class="controls">
+    <button class="btn btn-ghost" id="prev" onclick="navigate(-1)">← 前へ</button>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+      <div class="progress-label" id="prog-label">1 / 26</div>
+    </div>
+    <button class="btn btn-primary" id="next" onclick="navigate(1)">次へ →</button>
+  </div>
+</div>
+
+<div class="hint">← → キーでも操作できます</div>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+let current = 0;
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 0 || next >= slides.length) return;
+  slides[current].classList.remove('active');
+  if (dir > 0) slides[current].classList.add('prev-exit');
+  setTimeout(() => slides[current < slides.length ? current : current].classList.remove('prev-exit'), 300);
+  current = next;
+  slides[current].classList.add('active');
+  update();
+}
+
+function update() {
+  const pct = ((current + 1) / slides.length * 100).toFixed(1);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = (current + 1) + ' / ' + slides.length;
+  document.getElementById('prev').disabled = current === 0;
+  document.getElementById('next').disabled = current === slides.length - 1;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+update();
+</script>
+</body>
+</html>
