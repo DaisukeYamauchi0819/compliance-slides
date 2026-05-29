@@ -144,8 +144,8 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 18px 36px 16px;
-  gap: 10px;
+  padding: 14px 30px 12px;
+  gap: 8px;
 }
 
 .slide-inner.no-pad { padding: 0; }
@@ -156,7 +156,7 @@ body {
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
-  padding-bottom: 12px;
+  padding-bottom: 10px;
   border-bottom: 1.5px solid var(--border);
 }
 .module-chip {
@@ -180,8 +180,8 @@ body {
 /* ── Typography ── */
 h1 { font-size: 38px; line-height: 1.25; color: var(--text); font-weight: 800; }
 h2 { font-size: 26px; line-height: 1.3; color: var(--text); font-weight: 700; }
-h3 { font-size: 17px; line-height: 1.45; color: var(--text); font-weight: 700; }
-p, li { font-size: 16px; line-height: 1.65; color: var(--text); }
+h3 { font-size: 20px; line-height: 1.45; color: var(--text); font-weight: 700; }
+p, li { font-size: 18px; line-height: 1.65; color: var(--text); }
 .text-muted { color: var(--text-muted); }
 .text-sm { font-size: 15px; }
 .text-xs { font-size: 13px; }
@@ -251,8 +251,9 @@ strong { font-weight: 700; }
 .card {
   background: var(--surface);
   border-radius: 8px;
-  padding: 13px 16px;
+  padding: 10px 14px;
   border-left: 3px solid var(--brand);
+  transition: box-shadow 0.2s;
 }
 .card.danger { border-left-color: var(--danger); background: var(--danger-light); }
 .card.ok { border-left-color: var(--ok); background: var(--ok-light); }
@@ -261,15 +262,15 @@ strong { font-weight: 700; }
 
 /* ── Lists ── */
 ul.clean { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-ul.clean li { display: flex; align-items: flex-start; gap: 8px; font-size: 15px; line-height: 1.6; }
+ul.clean li { display: flex; align-items: flex-start; gap: 8px; font-size: 17px; line-height: 1.6; }
 ul.clean li::before { content: '・'; color: var(--brand); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
 ul.ng { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-ul.ng li { display: flex; gap: 7px; font-size: 15px; line-height: 1.5; }
+ul.ng li { display: flex; gap: 7px; font-size: 17px; line-height: 1.5; }
 ul.ng li::before { content: '❌'; flex-shrink: 0; font-size: 13px; margin-top: 2px; }
 
 ul.ok-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-ul.ok-list li { display: flex; gap: 7px; font-size: 15px; line-height: 1.5; }
+ul.ok-list li { display: flex; gap: 7px; font-size: 17px; line-height: 1.5; }
 ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-top: 2px; }
 
 /* ── Two-column grid ── */
@@ -348,8 +349,8 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
   display: flex; align-items: center; justify-content: center;
 }
 .step-body { flex: 1; padding-top: 3px; }
-.step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-.step-desc { font-size: 14px; color: var(--text-muted); line-height: 1.55; }
+.step-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.step-desc { font-size: 16px; color: var(--text-muted); line-height: 1.55; }
 
 /* ── Quiz ── */
 .quiz-item {
@@ -360,7 +361,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
   gap: 10px;
   align-items: flex-start;
 }
-.quiz-q-label { font-size: 16px; font-weight: 700; color: var(--brand); flex-shrink: 0; width: 32px; }
+.quiz-q-label { font-size: 18px; font-weight: 700; color: var(--brand); flex-shrink: 0; width: 32px; }
 .quiz-text { font-size: 16px; line-height: 1.6; }
 .quiz-ans {
   margin-top: 4px;
@@ -391,23 +392,23 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
   color: var(--brand);
   margin-bottom: 3px;
 }
-.summary-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.summary-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.summary-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.summary-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
 
 /* ── Table ── */
-.data-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 16px; }
 .data-table th {
   background: var(--brand);
   color: var(--white);
   padding: 9px 14px;
   text-align: left;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
 }
 .data-table td {
   padding: 8px 14px;
   border-bottom: 1px solid var(--border);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
 }
 .data-table tr:last-child td { border-bottom: none; }
@@ -420,7 +421,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
   align-items: flex-start;
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.65;
 }
 .banner.warn { background: var(--accent-light); border-left: 3px solid var(--accent); }
@@ -526,7 +527,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Opening</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">この研修の目的</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">この研修の目的</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px">
           <div style="background:var(--brand);border-radius:12px;padding:24px 32px;text-align:center">
@@ -564,7 +565,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Opening</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">コンプラ違反で何が起きるか</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">コンプラ違反で何が起きるか</span>
           <span class="slide-num">02 / 26</span>
         </div>
         <div class="card danger">
@@ -608,6 +609,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
     <!-- Module 1 Divider -->
     <div class="slide" id="s-m1">
       <div class="divider-slide" style="height:100%">
+        <div style="font-size:64px;margin-bottom:12px;line-height:1">👤</div>
         <div class="div-num">01</div>
         <div class="div-label">Module 1 · 5〜18分</div>
         <div class="div-title">募集人・非募集人で<br>できることの違い</div>
@@ -621,7 +623,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">まず確認 — 皆さんは「募集人」です</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">まず確認 — 皆さんは「募集人」です</span>
           <span class="slide-num">03 / 26</span>
         </div>
         <div class="cols-2" style="flex:1">
@@ -652,7 +654,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">FPエイドにさせてはいけないこと（保険業法第276条）</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">FPエイドにさせてはいけないこと（保険業法第276条）</span>
           <span class="slide-num">04 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:8px">
@@ -685,7 +687,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">FPエイドでもできること</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">FPエイドでもできること</span>
           <span class="slide-num">05 / 26</span>
         </div>
         <table class="data-table" style="flex:1">
@@ -714,7 +716,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">○×クイズ — FPエイドへの依頼、これはOK？NG？</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">○×クイズ — FPエイドへの依頼、これはOK？NG？</span>
           <span class="slide-num">06 / 26</span>
         </div>
         <p style="font-size:14px;color:var(--text-muted)">FPエイドに頼んだ場合を考えてください（○か×か考えてみましょう）</p>
@@ -752,7 +754,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">○×クイズ — 答え合わせ</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">○×クイズ — 答え合わせ</span>
         </div>
         <p style="font-size:14px;color:var(--text-muted)">FPエイドに頼んだ場合を考えてください</p>
         <div style="flex:1;display:flex;flex-direction:column;gap:10px">
@@ -796,7 +798,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 1</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">募集人登録の仕組みと更新管理</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">募集人登録の仕組みと更新管理</span>
           <span class="slide-num">07 / 26</span>
         </div>
         <div class="cols-2" style="flex:1">
@@ -847,6 +849,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
     <!-- Module 2 Divider -->
     <div class="slide" id="s-m2">
       <div class="divider-slide" style="height:100%">
+        <div style="font-size:64px;margin-bottom:12px;line-height:1">🚫</div>
         <div class="div-num">02</div>
         <div class="div-label">Module 2 · 18〜34分</div>
         <div class="div-title">禁止行為 9つ</div>
@@ -860,7 +863,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為とは（保険業法第300条）</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為とは（保険業法第300条）</span>
           <span class="slide-num">08 / 26</span>
         </div>
         <div class="card danger" style="flex:0">
@@ -892,7 +895,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為① 虚偽説明・断定的判断の提供</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為① 虚偽説明・断定的判断の提供</span>
           <span class="slide-num">09 / 26</span>
         </div>
         <div class="cols-2" style="flex:1;gap:14px">
@@ -927,7 +930,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為② 不利益事実の不告知・重要事項の不説明</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為② 不利益事実の不告知・重要事項の不説明</span>
           <span class="slide-num">10 / 26</span>
         </div>
         <div class="cols-2" style="flex:1;gap:14px">
@@ -957,7 +960,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為③〜⑤</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為③〜⑤</span>
           <span class="slide-num">11 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:14px">
@@ -991,7 +994,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為⑥〜⑨</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為⑥〜⑨</span>
           <span class="slide-num">12 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:12px">
@@ -1026,7 +1029,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 2</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">禁止行為まとめ — 9つの整理</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">禁止行為まとめ — 9つの整理</span>
           <span class="slide-num">13 / 26</span>
         </div>
         <div class="summary-grid" style="flex:1">
@@ -1085,6 +1088,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
     <!-- Module 3 Divider -->
     <div class="slide" id="s-m3">
       <div class="divider-slide" style="height:100%">
+        <div style="font-size:64px;margin-bottom:12px;line-height:1">📋</div>
         <div class="div-num">03</div>
         <div class="div-label">Module 3 · 34〜46分</div>
         <div class="div-title">意向把握・<br>情報提供義務</div>
@@ -1098,7 +1102,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 3</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">意向把握義務とは（保険業法第294条の2）</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">意向把握義務とは（保険業法第294条の2）</span>
           <span class="slide-num">14 / 26</span>
         </div>
         <div class="card" style="background:#e8f4fb;border-left-color:#2980b9;flex:0">
@@ -1127,7 +1131,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 3</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">意向把握の5ステップ（必ずこの順番で）</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">意向把握の5ステップ（必ずこの順番で）</span>
           <span class="slide-num">15 / 26</span>
         </div>
         <div style="flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch">
@@ -1180,7 +1184,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 3</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">情報提供義務 & よくあるNG例</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">情報提供義務 & よくあるNG例</span>
           <span class="slide-num">16 / 26</span>
         </div>
         <div class="cols-2" style="flex:1;gap:16px">
@@ -1224,6 +1228,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
     <!-- Module 4 Divider -->
     <div class="slide" id="s-m4">
       <div class="divider-slide" style="height:100%">
+        <div style="font-size:64px;margin-bottom:12px;line-height:1">🔒</div>
         <div class="div-num">04</div>
         <div class="div-label">Module 4 · 46〜57分</div>
         <div class="div-title">個人情報保護の<br>実務ルール</div>
@@ -1237,7 +1242,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 4</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">保険業務で扱う個人情報の特殊性</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">保険業務で扱う個人情報の特殊性</span>
           <span class="slide-num">17 / 26</span>
         </div>
         <div class="cols-2" style="flex:1;gap:16px">
@@ -1276,7 +1281,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 4</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">日常業務での個人情報ルール</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">日常業務での個人情報ルール</span>
           <span class="slide-num">18 / 26</span>
         </div>
         <div class="cols-3" style="flex:1;gap:12px">
@@ -1332,7 +1337,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">Module 4</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">情報漏洩が起きたら</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">情報漏洩が起きたら</span>
           <span class="slide-num">19 / 26</span>
         </div>
         <div class="steps" style="flex:1;justify-content:space-between">
@@ -1394,7 +1399,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip" style="background:#2e7d32">確認テスト</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">○×問題（各10点）— 問1〜4</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">○×問題（各10点）— 問1〜4</span>
           <span class="slide-num">20 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:10px">
@@ -1431,7 +1436,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip" style="background:#2e7d32">確認テスト</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">○×問題（各10点）— 問5〜7</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">○×問題（各10点）— 問5〜7</span>
           <span class="slide-num">21 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:12px">
@@ -1462,7 +1467,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip" style="background:#2e7d32">確認テスト</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">選択問題（各10点）— 問8〜10</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">選択問題（各10点）— 問8〜10</span>
           <span class="slide-num">22 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:12px">
@@ -1497,12 +1502,196 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       </div>
     </div>
 
+    <!-- Module 5: 2025〜2026 法改正トピック -->
+    <div class="slide" id="s-m5">
+      <div class="divider-slide" style="height:100%;background:linear-gradient(135deg,#4a1060 0%,#7b1fa2 100%);position:relative;overflow:hidden">
+        <div style="position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+        <div style="position:absolute;right:80px;bottom:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04)"></div>
+        <div style="font-size:72px;margin-bottom:12px;line-height:1">⚡</div>
+        <div class="div-num" style="color:rgba(255,255,255,.1)">05</div>
+        <div class="div-label" style="color:rgba(255,255,255,.55)">Module 5 · 最新情報</div>
+        <div class="div-title" style="font-size:38px;color:#fff">2025〜2026年<br>主要法改正トピック</div>
+        <div class="div-sub" style="color:rgba(255,255,255,.75)">知らずに募集すると即アウト。<br>4つのポイントを確認しよう。</div>
+        <div class="div-time" style="color:rgba(255,255,255,.45)">📋 根拠：保険業法改正・金融サービス提供法・生保協会ガイドライン</div>
+      </div>
+    </div>
+
+    <!-- 改正① 顧客本位の業務運営 -->
+    <div class="slide" id="s-m5-1">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#7b1fa2">Module 5</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">改正① 顧客本位の業務運営の法定化</span>
+        </div>
+        <div style="flex:1;display:flex;gap:18px;align-items:stretch">
+          <div style="flex:0 0 110px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f3e5f7 0%,#e1bee7 100%);border-radius:16px">
+            <div style="font-size:72px;line-height:1">🏆</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+            <div class="card" style="background:#f3e5f7;border-left-color:#7b1fa2">
+              <p style="font-size:15px;font-weight:700;color:#4a1060;margin-bottom:4px">2025年施行 — 顧客の「最善利益」が法的義務へ</p>
+              <p style="font-size:14px;color:var(--text);line-height:1.6">フィデューシャリー・デューティー（顧客本位の業務運営）が、努力義務から<strong>法令上の明確な義務</strong>に。代理店は商品選定理由・利益相反の状況を顧客に開示し、記録する必要がある。</p>
+            </div>
+            <div class="cols-2" style="gap:12px">
+              <div>
+                <p style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:6px">NG例</p>
+                <ul class="ng">
+                  <li>手数料が高いから優先して提案する</li>
+                  <li>利益相反の状況を顧客に開示しない</li>
+                </ul>
+              </div>
+              <div>
+                <p style="font-size:13px;font-weight:700;color:var(--ok);margin-bottom:6px">OK例</p>
+                <ul class="ok-list">
+                  <li>商品選定理由を文書で記録</li>
+                  <li>複数商品を比較した提案</li>
+                  <li>利益相反は事前に開示</li>
+                </ul>
+              </div>
+            </div>
+            <div class="banner danger">
+              <span class="banner-icon">⚠️</span>
+              <span>「手数料が高いから勧める」だけでは<strong>法令違反</strong>になりうる時代へ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改正② 乗合代理店の比較推奨ルール -->
+    <div class="slide" id="s-m5-2">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#7b1fa2">Module 5</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">改正② 乗合代理店の比較推奨ルール強化</span>
+        </div>
+        <div style="flex:1;display:flex;gap:18px;align-items:stretch">
+          <div style="flex:0 0 110px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f3e5f7 0%,#e1bee7 100%);border-radius:16px">
+            <div style="font-size:72px;line-height:1">⚖️</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+            <div class="card" style="background:#f3e5f7;border-left-color:#7b1fa2">
+              <p style="font-size:14px;color:var(--text);line-height:1.6">複数の保険会社を扱う<strong>乗合代理店</strong>は、特定商品への誘導が禁止。<strong>推奨理由の明示と記録</strong>が義務化される。</p>
+            </div>
+            <div class="cols-3" style="gap:10px">
+              <div class="card" style="border-left-color:#7b1fa2">
+                <p style="font-size:13px;font-weight:700;color:#4a1060;margin-bottom:4px">推奨理由の明示</p>
+                <p style="font-size:13px;color:var(--text-muted);line-height:1.55">なぜその商品を選んだかを顧客に必ず説明</p>
+              </div>
+              <div class="card" style="border-left-color:#7b1fa2">
+                <p style="font-size:13px;font-weight:700;color:#4a1060;margin-bottom:4px">比較説明の記録</p>
+                <p style="font-size:13px;color:var(--text-muted);line-height:1.55">他社商品との比較プロセスを文書化</p>
+              </div>
+              <div class="card" style="border-left-color:#7b1fa2">
+                <p style="font-size:13px;font-weight:700;color:#4a1060;margin-bottom:4px">手数料開示</p>
+                <p style="font-size:13px;color:var(--text-muted);line-height:1.55">代理店手数料の開示義務化が検討中</p>
+              </div>
+            </div>
+            <div class="banner danger">
+              <span class="banner-icon">❌</span>
+              <span>「○○生命だけ勧めるのは、手数料が高いからです」——これは<strong>不適切</strong>とみなされる可能性あり</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改正③ 高齢顧客対応強化 -->
+    <div class="slide" id="s-m5-3">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#7b1fa2">Module 5</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">改正③ 高齢顧客への適合性確認強化</span>
+        </div>
+        <div style="flex:1;display:flex;gap:18px;align-items:stretch">
+          <div style="flex:0 0 110px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f3e5f7 0%,#e1bee7 100%);border-radius:16px;gap:4px">
+            <div style="font-size:54px;line-height:1">👴</div>
+            <div style="font-size:54px;line-height:1">👵</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+            <div class="card" style="background:#f3e5f7;border-left-color:#7b1fa2">
+              <p style="font-size:14px;color:var(--text);line-height:1.6"><strong>70歳以上</strong>の高齢顧客には、通常の意向確認に加え<strong>追加の確認義務</strong>が強化されています。</p>
+            </div>
+            <div class="steps" style="gap:8px">
+              <div class="step">
+                <div class="step-num" style="background:#7b1fa2">1</div>
+                <div class="step-body">
+                  <div class="step-title">家族・親族の同席を推奨</div>
+                  <div class="step-desc">同席が得られない場合は理由を記録する</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num" style="background:#7b1fa2">2</div>
+                <div class="step-body">
+                  <div class="step-title">複数回の面談で意向確認</div>
+                  <div class="step-desc">即決させず、検討時間を確保する</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num" style="background:#7b1fa2">3</div>
+                <div class="step-body">
+                  <div class="step-title">理解度確認の記録</div>
+                  <div class="step-desc">マニュアルに沿った確認・質問・回答を残す</div>
+                </div>
+              </div>
+            </div>
+            <div class="card danger">
+              <p style="font-size:14px;font-weight:700;color:var(--danger)">⚠️ 認知症等が疑われる場合は即座に上長へ報告。無理に契約を進めない。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改正④ デジタル・SNS募集ルール -->
+    <div class="slide" id="s-m5-4">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <span class="module-chip" style="background:#7b1fa2">Module 5</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">改正④ デジタル・SNS募集のルール整備</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:18px;align-items:center">
+            <div style="flex:0 0 110px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f3e5f7 0%,#e1bee7 100%);border-radius:16px;gap:4px;padding:14px 0">
+              <div style="font-size:48px;line-height:1">📱</div>
+              <div style="font-size:48px;line-height:1">💻</div>
+            </div>
+            <div class="card" style="flex:1;background:#f3e5f7;border-left-color:#7b1fa2">
+              <p style="font-size:14px;color:var(--text);line-height:1.6">SNS・DM・メッセージアプリでの<strong>募集行為</strong>に明確なルール。個人発信は社内承認が必須。</p>
+            </div>
+          </div>
+          <div class="cols-2" style="flex:1;gap:14px">
+            <div>
+              <p style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:6px">NG例</p>
+              <ul class="ng">
+                <li>SNSで特定商品名・保険料を明示した勧誘投稿</li>
+                <li>DM・メッセージで未承認の情報を送付</li>
+                <li>個人アカウントから会社名を隠して勧誘</li>
+              </ul>
+            </div>
+            <div>
+              <p style="font-size:13px;font-weight:700;color:var(--ok);margin-bottom:6px">OK例</p>
+              <ul class="ok-list">
+                <li>一般的な保険の仕組みの教育コンテンツ</li>
+                <li>「詳しくはDMまたは公式窓口へ」の誘導</li>
+                <li>会社・代理店名を明示した公式アカウントの案内</li>
+              </ul>
+            </div>
+          </div>
+          <div class="banner danger">
+            <span class="banner-icon">⚠️</span>
+            <span>SNS投稿も「<strong>募集行為</strong>」に該当しうる。個人発信は必ず上長確認を。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- まとめ -->
     <div class="slide" id="s-summary">
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">まとめ</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">4つのモジュール — おさらい</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">4つのモジュール — おさらい</span>
           <span class="slide-num">24 / 26</span>
         </div>
         <div class="cols-2" style="flex:1;gap:12px">
@@ -1558,7 +1747,7 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
       <div class="slide-inner">
         <div class="slide-header">
           <span class="module-chip">注意事項</span>
-          <span style="font-size:18px;font-weight:700;color:var(--text)">困ったときは必ず確認を</span>
+          <span style="font-size:20px;font-weight:700;color:var(--text)">困ったときは必ず確認を</span>
           <span class="slide-num">25 / 26</span>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:14px">
