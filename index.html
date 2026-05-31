@@ -378,22 +378,24 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 .summary-item {
   background: var(--surface);
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-top: 3px solid var(--brand);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .summary-num {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--brand);
-  margin-bottom: 3px;
 }
-.summary-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.summary-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+.summary-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.summary-desc { font-size: 15px; color: var(--text-muted); line-height: 1.55; }
 
 /* ── Table ── */
 .data-table { width: 100%; border-collapse: collapse; font-size: 16px; }
@@ -1083,8 +1085,8 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
             <div class="summary-desc">引受会社・商品種別を正確に伝える</div>
           </div>
         </div>
-        <div style="background:var(--brand);color:var(--white);border-radius:8px;padding:12px 20px;text-align:center">
-          <p style="font-size:14px;font-weight:700;color:#ffffff">共通の考え方：「顧客が正しく判断できる環境を作ること」</p>
+        <div style="background:var(--brand);color:var(--white);border-radius:8px;padding:14px 24px;text-align:center">
+          <p style="font-size:18px;font-weight:700;color:#ffffff">共通の考え方：「顧客が正しく判断できる環境を作ること」</p>
         </div>
       </div>
     </div>
