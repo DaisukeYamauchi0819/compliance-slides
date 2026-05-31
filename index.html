@@ -1243,29 +1243,38 @@ ul.ok-list li::before { content: '✅'; flex-shrink: 0; font-size: 13px; margin-
             <p style="font-size:16px;font-weight:700;color:#1a5276;margin-bottom:6px">目的：ヒアリングした意向をもとに、最も適切な商品を選ぶ</p>
           </div>
           <div class="cols-2" style="flex:1;gap:12px">
-            <div>
-              <p style="font-size:15px;font-weight:700;color:var(--text-muted);margin-bottom:8px">選定の基準</p>
-              <ul class="clean">
-                <li>顧客の意向・ニーズに合っているか</li>
-                <li>予算に合う保険料か</li>
-                <li>乗合代理店の場合は複数会社を比較・検討</li>
-                <li>推奨する理由を明確に説明・記録できるか</li>
-              </ul>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <p style="font-size:15px;font-weight:700;color:var(--text-muted);margin-bottom:8px">選定の基準</p>
+                <ul class="clean">
+                  <li>顧客の意向・ニーズに合っているか</li>
+                  <li>予算に合う保険料か</li>
+                  <li>推奨する理由を明確に説明・記録できるか</li>
+                </ul>
+              </div>
+              <div class="card" style="background:#fef9ec;border-left-color:var(--accent)">
+                <p style="font-size:15px;font-weight:700;color:#92600a;margin-bottom:6px">⚖️ 比較推奨販売（乗合代理店）</p>
+                <ul class="clean">
+                  <li>取り扱う複数社の商品を<strong>必ず比較検討</strong>する</li>
+                  <li>推奨商品と理由を<strong>書面で顧客に提示・記録</strong>する義務（2025年改正で強化）</li>
+                  <li>手数料など<strong>代理店側の利益相反</strong>がある場合は開示が必要</li>
+                </ul>
+              </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:10px">
               <div class="card danger">
                 <p style="font-size:15px;font-weight:700;color:var(--danger);margin-bottom:6px">NG — 会社都合の選定</p>
                 <ul class="ng">
-                  <li>代理店の手数料が高い商品を優先する</li>
+                  <li>手数料が高い商品を顧客ニーズより優先する</li>
                   <li>比較検討なしに「これがおすすめ」と提示する</li>
-                  <li>推奨理由を記録しない（2025年改正で義務化）</li>
+                  <li>推奨理由を記録しない・顧客に説明しない</li>
                 </ul>
               </div>
               <div class="card ok">
                 <p style="font-size:15px;font-weight:700;color:var(--ok);margin-bottom:6px">記録のポイント</p>
                 <ul class="ok-list">
-                  <li>比較した商品名と推奨理由を書面に残す</li>
-                  <li>顧客に推奨理由を口頭でも説明する</li>
+                  <li>比較した商品名・会社名と推奨理由を書面に残す</li>
+                  <li>利益相反がある場合はその旨を記録・開示する</li>
                 </ul>
               </div>
             </div>
